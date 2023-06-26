@@ -4,17 +4,7 @@ import omit from "lodash.omit";
 import {NotFoundError} from "./NotFoundError";
 import merge from "lodash.merge";
 import {incrementIdGenerator} from "./incrementIdGenerator";
-
-type Article = {
-    body: string;
-    description: string;
-    tagList: Array<string>;
-    title: string;
-    slug: string;
-    id: string;
-    createdAt: Date;
-    updatedAt: Date;
-};
+import {Article} from "./article";
 
 export const articlesRouter = Router();
 const articleIdGenerator = incrementIdGenerator(String);
@@ -22,7 +12,6 @@ const articles: Record<string, Article> = {};
 
 articlesRouter.post("/api/articles", async (req, res, next) => {
     const input = req.body.article;
-
     const now = new Date();
     const article: Article = {
         body: input.body,
