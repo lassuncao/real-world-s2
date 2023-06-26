@@ -1,21 +1,7 @@
 import express, {ErrorRequestHandler} from "express";
 import cors from "cors";
 import {NotFoundError} from "./NotFoundError";
-import {incrementIdGenerator} from "./incrementIdGenerator";
 import {articlesRouter} from "./articlesRouter";
-
-type Article = {
-  body: string;
-  description: string;
-  tagList: Array<string>;
-  title: string;
-  slug: string;
-  id: string;
-  createdAt: Date;
-  updatedAt: Date;
-};
-const articleIdGenerator = incrementIdGenerator(String);
-const articles: Record<string, Article> = {};
 
 export const app = express();
 app.use(cors());
