@@ -13,5 +13,9 @@ export type Article = {
   updatedAt: Date;
 };
 
+export type ArticleRepository = {
+  create(article: Article): Promise<void>;
+  update(article: Article): Promise<void>;
+  findBySlug(slug: Slug): Promise<Article | null>;
+};
 
-type PArtialArticle = Partial<Article>;

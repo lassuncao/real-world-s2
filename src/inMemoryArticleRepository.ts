@@ -1,19 +1,16 @@
-import { Article, ArticleId, Slug } from "./article";
+import {Article, ArticleId, ArticleRepository, Slug} from "./article";
 
-
-type X = ReturnType<typeof inMemoryArticleRepository>;
-
-export const inMemoryArticleRepository = () => {
+export const inMemoryArticleRepository = (): ArticleRepository => {
   const articles: Record<ArticleId, Article> = {};
 
   return {
-    async create(article: Article): Promise<void> {
+    async create(article) {
       articles[article.id] = article;
     },
-    async update(article: Article): Promise<void> {
+    async update(article) {
       articles[article.id] = article;
     },
-    async findBySlug(slug: Slug): Promise<Article | null> {
+    async findBySlug(slug) {
       const article = Object.values(articles).find(
         (article) => article.slug === slug
       );

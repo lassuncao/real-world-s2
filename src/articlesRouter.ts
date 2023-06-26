@@ -4,9 +4,8 @@ import omit from "lodash.omit";
 import { NotFoundError } from "./NotFoundError";
 import merge from "lodash.merge";
 import { incrementIdGenerator } from "./incrementIdGenerator";
-import { Article } from "./article";
 import { inMemoryArticleRepository } from "./inMemoryArticleRepository";
-import {createArticle} from "./createArticle";
+import { createArticle } from "./createArticle";
 
 export const articlesRouter = Router();
 const articleIdGenerator = incrementIdGenerator(String);
@@ -16,8 +15,8 @@ articlesRouter.post("/api/articles", async (req, res, next) => {
   // http
   const input = req.body.article;
   const article = await createArticle(
-      articleRepository,
-      articleIdGenerator
+    articleRepository,
+    articleIdGenerator
   )(input);
   res.json({ article: omit(article, "id") });
 });
