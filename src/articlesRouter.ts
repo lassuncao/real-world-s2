@@ -1,8 +1,6 @@
 import { Router } from "express";
-import makeSlug from "slug";
 import omit from "lodash.omit";
 import { NotFoundError } from "./NotFoundError";
-import merge from "lodash.merge";
 import { incrementIdGenerator } from "./incrementIdGenerator";
 import { inMemoryArticleRepository } from "./inMemoryArticleRepository";
 import { createArticle } from "./createArticle";
