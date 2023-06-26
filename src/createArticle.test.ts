@@ -1,14 +1,15 @@
 import { createArticle } from "./createArticle";
 import assert from "assert";
 import { inMemoryArticleRepository } from "./inMemoryArticleRepository";
-import omit from "lodash.omit";
 
 describe("Create article", function () {
   it("happy path", async function () {
     const articleRepository = inMemoryArticleRepository();
     const idGenerator = () => "articleId";
-    // HOF - higher order functions
-    const create = createArticle(articleRepository, idGenerator);
+    const DATE = new Date(2010, 10, 10);
+    const clock = () => DATE;
+    // DI - Dependency Injection - passing args to fns
+    const create = createArticle(articleRepository, idGenerator, clock);
 
     // ArticleInput
     const article = await create({
@@ -20,13 +21,15 @@ describe("Create article", function () {
 
     const fetchedArticle = await articleRepository.findBySlug(article.slug);
 
-    assert.deepStrictEqual(omit(fetchedArticle, "createdAt", "updatedAt"), {
+    assert.deepStrictEqual(fetchedArticle, {
       body: "body",
       description: "",
       id: "articleId",
       slug: "the-title",
       tagList: ["tag1", "tag2"],
       title: "The title",
+      createdAt: DATE,
+      updatedAt: DATE,
     });
   });
 });

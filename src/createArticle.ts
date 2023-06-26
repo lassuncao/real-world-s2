@@ -1,6 +1,7 @@
-import {Article, ArticleRepository} from "./article";
+import { Article, ArticleRepository } from "./article";
 import makeSlug from "slug";
-import {IdGenerator} from "./idGenerator";
+import { IdGenerator } from "./idGenerator";
+import { Clock } from "./clock";
 
 export type ArticleInput = {
   body: string;
@@ -13,10 +14,11 @@ export type ArticleInput = {
 export const createArticle =
   (
     articleRepository: ArticleRepository,
-    articleIdGenerator: IdGenerator
+    articleIdGenerator: IdGenerator,
+    clock: Clock
   ) =>
   async (input: ArticleInput) => {
-    const now = new Date();
+    const now = clock();
     const article: Article = {
       body: input.body,
       description: input.description,
