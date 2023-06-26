@@ -12,7 +12,11 @@ const articleIdGenerator = incrementIdGenerator(String);
 const articleRepository = inMemoryArticleRepository();
 
 articlesRouter.post("/api/articles", async (req, res, next) => {
+  // http
   const input = req.body.article;
+  // js/ts
+  // workflow/use case
+  // application service
   const now = new Date();
   const article: Article = {
     body: input.body,
@@ -26,6 +30,7 @@ articlesRouter.post("/api/articles", async (req, res, next) => {
   };
   await articleRepository.create(article);
 
+  // http
   res.json({ article: omit(article, "id") });
 });
 
@@ -49,6 +54,7 @@ articlesRouter.get("/api/articles/:slug", async (req, res, next) => {
   const slug = req.params.slug;
 
   const existingArticle = await articleRepository.findBySlug(slug);
+
   if (!existingArticle) {
     throw new NotFoundError(`Article with slug ${slug} does not exist`);
   }
