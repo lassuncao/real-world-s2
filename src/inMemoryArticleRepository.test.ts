@@ -1,55 +1,54 @@
-import {Article} from "./article";
-import {inMemoryArticleRepository} from "./inMemoryArticleRepository";
+import { Article } from "./article";
+import { inMemoryArticleRepository } from "./inMemoryArticleRepository";
 import assert from "assert";
 
-describe('In memory article repository', function () {
-    it('should create articles', async function () {
-        const article: Article = {
-            id: "id",
-            slug: "the-title",
-            title: "The title",
-            body: "body",
-            tagList: ["tag1", "tag2"],
-            description: "description",
-            createdAt: new Date(),
-            updatedAt: new Date()
-        };
-        const repository = inMemoryArticleRepository();
+describe("In memory article repository", function () {
+  it("should create articles", async function () {
+    const article: Article = {
+      id: "id",
+      slug: "the-title",
+      title: "The title",
+      body: "body",
+      tagList: ["tag1", "tag2"],
+      description: "description",
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    };
+    const repository = inMemoryArticleRepository();
 
-        await repository.create(article);
+    await repository.create(article);
 
-        const result = await repository.findBySlug("the-title");
+    const result = await repository.findBySlug("the-title");
 
-        assert.deepStrictEqual(result, article);
-    });
+    assert.deepStrictEqual(result, article);
+  });
 
-    it.skip('should update articles', async function () {
-        const article: Article = {
-            id: "id",
-            slug: "the-title",
-            title: "The title",
-            body: "body",
-            tagList: ["tag1", "tag2"],
-            description: "description",
-            createdAt: new Date(),
-            updatedAt: new Date()
-        };
-        const repository = inMemoryArticleRepository();
+  it("should update articles", async function () {
+    const article: Article = {
+      id: "id",
+      slug: "the-title",
+      title: "The title",
+      body: "body",
+      tagList: ["tag1", "tag2"],
+      description: "description",
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    };
+    const repository = inMemoryArticleRepository();
 
-        await repository.create(article);
-        await repository.update({...article, body: 'updated body'});
+    await repository.create(article);
+    await repository.update({ ...article, body: "updated body" });
 
-        const result = await repository.findBySlug("the-title");
+    const result = await repository.findBySlug("the-title");
 
-        assert.deepStrictEqual(result!.body, 'updated body');
-    });
+    assert.deepStrictEqual(result!.body, "updated body");
+  });
 
-    it.skip('should return null when article not found', async function () {
-        const repository = inMemoryArticleRepository();
+  it("should return null when article not found", async function () {
+    const repository = inMemoryArticleRepository();
 
-        const result = await repository.findBySlug("the-title");
+    const result = await repository.findBySlug("the-title");
 
-        assert.deepStrictEqual(result, null);
-    });
-
+    assert.deepStrictEqual(result, null);
+  });
 });
