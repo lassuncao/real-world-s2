@@ -7,7 +7,8 @@ import { incrementIdGenerator } from "./incrementIdGenerator";
 import { inMemoryArticleRepository } from "./inMemoryArticleRepository";
 import { createArticle } from "./createArticle";
 import { clock } from "./clock";
-import { ArticleInput } from "./parseArticleInput";
+import { ArticleInput, UpdateArticleInput } from "./parseArticleInput";
+import { updateArticle } from "./updateArticle";
 
 export const articlesRouter = Router();
 const articleIdGenerator = incrementIdGenerator(String);
@@ -25,18 +26,12 @@ articlesRouter.post("/api/articles", async (req, res, next) => {
 });
 
 articlesRouter.put("/api/articles/:slug", async (req, res, next) => {
-  const articleInput = req.body.article;
+  const articleInput = UpdateArticleInput.parse(req.body.article);
   const slug = req.params.slug;
-  const existingArticle = await articleRepository.findBySlug(slug);
-  if (!existingArticle) {
-    throw new NotFoundError(`Article with slug ${slug} does not exist`);
-  }
-  const article = merge(existingArticle, articleInput);
-  const now = new Date();
-  article.updatedAt = now;
-  article.slug = makeSlug(article.title);
-
-  await articleRepository.update(article);
+  const article = await updateArticle(articleRepository, clock)(
+    slug,
+    articleInput
+  );
   res.json({ article: omit(article, "id") });
 });
 
