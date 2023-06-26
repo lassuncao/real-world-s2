@@ -1,10 +1,9 @@
 import {Router} from "express";
 import makeSlug from "slug";
 import omit from "lodash.omit";
-import { NotFoundError } from "./NotFoundError";
+import {NotFoundError} from "./NotFoundError";
 import merge from "lodash.merge";
-import { app } from "./app";
-import { incrementIdGenerator } from "./incrementIdGenerator";
+import {incrementIdGenerator} from "./incrementIdGenerator";
 
 type Article = {
     body: string;
