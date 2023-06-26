@@ -2,13 +2,7 @@ import { Article, ArticleRepository } from "./article";
 import makeSlug from "slug";
 import { IdGenerator } from "./idGenerator";
 import { Clock } from "./clock";
-
-export type ArticleInput = {
-  body: string;
-  description: string;
-  tagList: string[];
-  title: string;
-};
+import { ArticleInput } from "./parseArticleInput";
 
 // use case/workflow/application service
 export const createArticle =

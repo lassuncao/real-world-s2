@@ -7,6 +7,7 @@ import { incrementIdGenerator } from "./incrementIdGenerator";
 import { inMemoryArticleRepository } from "./inMemoryArticleRepository";
 import { createArticle } from "./createArticle";
 import { clock } from "./clock";
+import { ArticleInput } from "./parseArticleInput";
 
 export const articlesRouter = Router();
 const articleIdGenerator = incrementIdGenerator(String);
@@ -14,7 +15,7 @@ const articleRepository = inMemoryArticleRepository();
 
 articlesRouter.post("/api/articles", async (req, res, next) => {
   // http
-  const input = req.body.article;
+  const input = ArticleInput.parse(req.body.article);
   const article = await createArticle(
     articleRepository,
     articleIdGenerator,
