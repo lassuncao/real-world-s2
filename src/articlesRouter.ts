@@ -15,15 +15,10 @@ const articleRepository = inMemoryArticleRepository();
 articlesRouter.post("/api/articles", async (req, res, next) => {
   // http
   const input = req.body.article;
-  // js/ts
-  // workflow/use case
-  // application service
   const article = await createArticle(
       articleRepository,
       articleIdGenerator
   )(input);
-
-  // http
   res.json({ article: omit(article, "id") });
 });
 
