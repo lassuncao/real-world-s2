@@ -12,3 +12,6 @@ export type Article = {
   createdAt: Date;
   updatedAt: Date;
 };
+
+
+type PArtialArticle = Partial<Article>;
