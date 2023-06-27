@@ -5,48 +5,57 @@ import { incrementIdGenerator } from "./incrementIdGenerator";
 import { inMemoryArticleRepository } from "./inMemoryArticleRepository";
 import { createArticle } from "./createArticle";
 import { clock } from "./clock";
-import { ArticleInput, UpdateArticleInput } from "./parseArticleInput";
+import { ArticleInput } from "./parseArticleInput";
 import { updateArticle } from "./updateArticle";
 import { sqlArticleRepository } from "./sqlArticleRepository";
 import { createDb } from "./db";
 import { uuidGenerator } from "./uuidGenerator";
+import { Config } from "./config";
 
-export const articlesRouter = Router();
-const articleIdGenerator = process.env.DATABASE_URL
-  ? uuidGenerator
-  : incrementIdGenerator(String);
-const articleRepository = process.env.DATABASE_URL
-  ? sqlArticleRepository(createDb(process.env.DATABASE_URL))
-  : inMemoryArticleRepository();
+export const createArticlesRouter = (config: Config) => {
+  const articleIdGenerator = config.DATABASE_URL
+    ? uuidGenerator
+    : incrementIdGenerator(String);
+  const articleRepository = config.DATABASE_URL
+    ? sqlArticleRepository(createDb(config.DATABASE_URL))
+    : inMemoryArticleRepository();
 
-articlesRouter.post("/api/articles", async (req, res, next) => {
-  // http
-  const input = ArticleInput.parse(req.body.article);
-  const article = await createArticle(
-    articleRepository,
-    articleIdGenerator,
-    clock
-  )(input);
-  res.json({ article: omit(article, "id") });
-});
+  const articlesRouter = Router();
 
-articlesRouter.put("/api/articles/:slug", async (req, res, next) => {
-  const articleInput = UpdateArticleInput.parse(req.body.article);
-  const slug = req.params.slug;
-  const article = await updateArticle(articleRepository, clock)(
-    slug,
-    articleInput
-  );
-  res.json({ article: omit(article, "id") });
-});
+  articlesRouter.post("/api/articles", async (req, res, next) => {
+    const input = ArticleInput.parse(req.body.article);
 
-articlesRouter.get("/api/articles/:slug", async (req, res, next) => {
-  const slug = req.params.slug;
+    const article = await createArticle(
+      articleRepository,
+      articleIdGenerator,
+      clock
+    )(input);
 
-  const existingArticle = await articleRepository.findBySlug(slug);
+    res.json({ article: omit(article, "id") });
+  });
 
-  if (!existingArticle) {
-    throw new NotFoundError(`Article with slug ${slug} does not exist`);
-  }
-  res.json({ article: omit(existingArticle, "id") });
-});
+  articlesRouter.put("/api/articles/:slug", async (req, res, next) => {
+    const articleInput = req.body.article;
+    const slug = req.params.slug;
+
+    const article = await updateArticle(articleRepository, clock)(
+      slug,
+      articleInput
+    );
+
+    res.json({ article: omit(article, "id") });
+  });
+
+  articlesRouter.get("/api/articles/:slug", async (req, res, next) => {
+    const slug = req.params.slug;
+
+    const existingArticle = await articleRepository.findBySlug(slug);
+
+    if (!existingArticle) {
+      throw new NotFoundError(`Article with slug ${slug} does not exist`);
+    }
+    res.json({ article: omit(existingArticle, "id") });
+  });
+
+  return articlesRouter;
+};

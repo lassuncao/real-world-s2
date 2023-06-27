@@ -1,7 +1,8 @@
 import httpClient from "supertest";
-import { app } from "./app";
+import { createApp } from "./app";
 import assert from "assert";
 import omit from "lodash.omit";
+import { config } from "./config";
 
 type ArticleInput = {
   title: string;
@@ -32,7 +33,7 @@ const getArticle = (request: Request, slug: string) =>
 
 describe("Conduit", function () {
   it("Article creation journey", async function () {
-    const request = httpClient(app);
+    const request = httpClient(createApp(config));
 
     const createdArticle = await createArticle(request, {
       title: "The title",
