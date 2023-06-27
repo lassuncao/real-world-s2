@@ -30,6 +30,22 @@ export const sqlArticleRepository = (db: Kysely<DB>): ArticleRepository => {
           .execute();
       }
     },
-    async findBySlug(slug) {},
+    async findBySlug(slug) {
+      const article = await db
+        .selectFrom("article")
+        .where("slug", "=", slug)
+        .selectAll()
+        .executeTakeFirst();
+      if (!article) return null;
+      const tags = await db
+        .selectFrom("tags")
+        .where("tags.articleId", "=", article.id)
+        .select(["tags.name"])
+        .execute();
+      return {
+        ...article,
+        tagList: tags.map((item) => item.name),
+      };
+    },
   };
 };
