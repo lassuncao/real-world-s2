@@ -7,10 +7,14 @@ import { createArticle } from "./createArticle";
 import { clock } from "./clock";
 import { ArticleInput, UpdateArticleInput } from "./parseArticleInput";
 import { updateArticle } from "./updateArticle";
+import { sqlArticleRepository } from "./sqlArticleRepository";
+import { createDb } from "./db";
 
 export const articlesRouter = Router();
 const articleIdGenerator = incrementIdGenerator(String);
-const articleRepository = inMemoryArticleRepository();
+const articleRepository = process.env.DATABASE_URL
+  ? sqlArticleRepository(createDb(process.env.DATABASE_URL))
+  : inMemoryArticleRepository();
 
 articlesRouter.post("/api/articles", async (req, res, next) => {
   // http
