@@ -1,7 +1,7 @@
-import { Article, ArticleRepository } from "./article";
+import { Article, ArticleRepository } from "../domain/article";
 import makeSlug from "slug";
-import { IdGenerator } from "../shared/idGenerator";
-import { Clock } from "../shared/clock";
+import { IdGenerator } from "../../shared/idGenerator";
+import { Clock } from "../../shared/clock";
 import { ArticleInput } from "./parseArticleInput";
 
 export type CreateArticle = (input: ArticleInput) => Promise<Article>;

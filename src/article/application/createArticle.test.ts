@@ -1,6 +1,6 @@
 import { createArticle } from "./createArticle";
 import assert from "assert";
-import { inMemoryArticleRepository } from "./inMemoryArticleRepository";
+import { inMemoryArticleRepository } from "../infrastructure/inMemoryArticleRepository";
 
 describe("Create article", function () {
   it("happy path", async function () {
