@@ -1,12 +1,12 @@
-import { uuidGenerator } from "./uuidGenerator";
-import { incrementIdGenerator } from "./incrementIdGenerator";
+import { uuidGenerator } from "../shared/uuidGenerator";
+import { incrementIdGenerator } from "../shared/incrementIdGenerator";
 import { sqlArticleRepository } from "./sqlArticleRepository";
 import { inMemoryArticleRepository } from "./inMemoryArticleRepository";
 import { createArticle } from "./createArticle";
-import { clock } from "./clock";
+import { clock } from "../shared/clock";
 import { updateArticle } from "./updateArticle";
 import { Kysely } from "kysely";
-import { DB } from "./dbTypes";
+import { DB } from "../dbTypes";
 
 export const sqlArticlesCompositionRoot = (db: Kysely<DB>) => {
   const articleIdGenerator = uuidGenerator;

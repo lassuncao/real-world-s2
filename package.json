@@ -3,7 +3,7 @@
     "start": "ts-node -r dotenv/config src/server.ts",
     "test": "mocha 'src/**/*.test.ts'",
     "format": "prettier --write src/**",
-    "migrate:latest": "cross-env DATABASE_URL=postgres://user:secret@localhost:5432/conduit ts-node src/migrate-to-latest.ts",
+    "migrate:latest": "cross-env DATABASE_URL=postgres://user:secret@localhost:5432/conduit ts-node scripts/migrate-to-latest.ts",
     "generate:types": "DATABASE_URL=postgres://user:secret@localhost:5432/conduit kysely-codegen --out-file=src/dbTypes.ts"
   },
   "devDependencies": {
