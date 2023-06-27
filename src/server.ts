@@ -1,7 +1,7 @@
-import { app } from "./app";
+import { createApp } from "./app";
 import { config } from "./config";
 
 const port = config.PORT;
-app.listen(port, () => {
+createApp(config).listen(port, () => {
   console.log(`Listening on ${port}`);
 });
