@@ -33,7 +33,9 @@ const getArticle = (request: Request, slug: string) =>
 
 describe("Conduit", function () {
   it("Article creation journey", async function () {
-    const request = httpClient(createApp(config));
+    const { app, clean } = createApp(config);
+    await clean();
+    const request = httpClient(app);
 
     const createdArticle = await createArticle(request, {
       title: "The title",
